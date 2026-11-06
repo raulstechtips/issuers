@@ -1,0 +1,22 @@
+suite: Self signed issuer
+templates:
+  - templates/selfsigned-issuer.yaml
+tests:
+  - it: keeps the live name and self signed configuration
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ClusterIssuer
+      - equal:
+          path: metadata.name
+          value: selfsigned-issuer
+      - equal:
+          path: spec.selfSigned
+          value: {}
+  - it: can disable the self signed issuer
+    set:
+      selfSigned.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0

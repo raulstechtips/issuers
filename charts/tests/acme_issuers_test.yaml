@@ -1,0 +1,48 @@
+suite: ACME issuers
+templates:
+  - templates/acme-issuers.yaml
+tests:
+  - it: leaves environment dependent issuers off by default
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: keeps both endpoints and account Secret names
+    values: [../ci/all-on-values.yaml]
+    asserts:
+      - hasDocuments:
+          count: 2
+      - equal:
+          path: metadata.name
+          value: letsencrypt-production
+        documentIndex: 0
+      - equal:
+          path: spec.acme.server
+          value: https://acme-v02.api.letsencrypt.org/directory
+        documentIndex: 0
+      - equal:
+          path: spec.acme.privateKeySecretRef.name
+          value: letsencrypt-production
+        documentIndex: 0
+      - equal:
+          path: spec.acme.server
+          value: https://acme-staging-v02.api.letsencrypt.org/directory
+        documentIndex: 1
+      - equal:
+          path: spec.acme.privateKeySecretRef.name
+          value: letsencrypt-staging
+        documentIndex: 1
+  - it: wires email DNS zones and the existing token reference
+    values: [../ci/all-on-values.yaml]
+    asserts:
+      - equal:
+          path: spec.acme.email
+          value: fake-admin@example.test
+      - equal:
+          path: spec.acme.solvers[0].dns01.cloudflare.email
+          value: fake-admin@example.test
+      - equal:
+          path: spec.acme.solvers[0].dns01.cloudflare.apiTokenSecretRef
+          value: {name: cloudflare-token-secret, key: cloudflare-token}
+      - equal:
+          path: spec.acme.solvers[0].selector.dnsZones
+          value: [example.test]

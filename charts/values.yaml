@@ -1,0 +1,27 @@
+# Keep issuer names, ACME endpoints, and Secret references stable during adoption.
+acme:
+  enabled: false
+  email: ""
+  dnsZones: []
+  issuers:
+    - name: letsencrypt-production
+      server: https://acme-v02.api.letsencrypt.org/directory
+    - name: letsencrypt-staging
+      server: https://acme-staging-v02.api.letsencrypt.org/directory
+ca:
+  enabled: false
+  name: raulstechtips-internal-ca-issuer
+  secretName: raulstechtips-internal-ca-key-pair
+selfSigned:
+  enabled: true
+cloudflareToken:
+  enabled: false
+infisical:
+  authRef:
+    name: ""
+    namespace: ""
+  projectSlug: ""
+  environmentSlug: ""
+  # Same source and recursion as the existing argocd-app-env sync.
+  secretPath: /argocd/apps/env
+  recursive: true

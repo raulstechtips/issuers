@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["acme", "ca", "selfSigned", "cloudflareToken", "infisical"],
+  "properties": {
+    "acme": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "email", "dnsZones", "issuers"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "email": {"type": "string"},
+        "dnsZones": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+        "issuers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "server"],
+            "properties": {
+              "name": {"type": "string", "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"},
+              "server": {"type": "string", "pattern": "^https://"}
+            }
+          }
+        }
+      }
+    },
+    "ca": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "name", "secretName"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "name": {"type": "string", "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"},
+        "secretName": {"type": "string"}
+      }
+    },
+    "selfSigned": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {"enabled": {"type": "boolean"}}
+    },
+    "cloudflareToken": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled"],
+      "properties": {"enabled": {"type": "boolean"}}
+    },
+    "infisical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authRef", "projectSlug", "environmentSlug", "secretPath", "recursive"],
+      "properties": {
+        "authRef": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "namespace"],
+          "properties": {
+            "name": {"type": "string"},
+            "namespace": {"type": "string"}
+          }
+        },
+        "projectSlug": {"type": "string"},
+        "environmentSlug": {"type": "string"},
+        "secretPath": {"type": "string", "pattern": "^/"},
+        "recursive": {"type": "boolean"}
+      }
+    }
+  }
+}
