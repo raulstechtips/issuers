@@ -1,0 +1,16 @@
+acme:
+  enabled: true
+  email: fake-admin@example.test
+  dnsZones: [example.test]
+ca:
+  enabled: true
+  name: fake-internal-ca-issuer
+  secretName: fake-internal-ca-key-pair
+cloudflareToken:
+  enabled: true
+infisical:
+  authRef:
+    name: fake-universal-auth
+    namespace: fake-auth
+  projectSlug: fake-project
+  environmentSlug: fake-environment

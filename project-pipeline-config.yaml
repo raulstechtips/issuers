@@ -1,0 +1,11 @@
+project-config:
+  project-name: issuers
+  project-description: "Helm chart that installs certificate issuers"
+  project-namespace: cert-manager
+  publish-targets: [ghcr]
+  pipeline-steps:
+    helm-test: true
+    trivy-scan: true
+    opengrep-scan: true
+    helm-package-upload: true
+    argo-deploy: true
