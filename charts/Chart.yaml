@@ -2,7 +2,7 @@ apiVersion: v2
 name: issuers
 description: "Certificate issuers with an Infisical-backed Cloudflare token."
 type: application
-version: 0.1.0-main-79b774d-2
+version: 0.1.0
 # No upstream application or dependency: these are cert-manager v1 resources.
 appVersion: "1.0.0"
 dependencies: []
